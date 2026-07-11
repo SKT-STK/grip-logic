@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  ::-webkit-scrollbar-button {
+   height: 0;
+   width: 0;
+  }
+}
+
+@theme {
+  --color-redorange: oklch(0.6845 0.2095 41.2);
+  --color-stone-925: #120f0e;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+@plugin "tailwind-scrollbar";
