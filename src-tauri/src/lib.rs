@@ -2,6 +2,8 @@ mod tauri_commands;
 mod acc_data;
 mod global;
 mod acc;
+mod input_simulator;
+mod utils;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -13,7 +15,9 @@ pub fn run() {
       tauri_commands::get_car_and_track_name,
       tauri_commands::get_curr_track_perc,
       tauri_commands::fetch_bb_offset,
-      tauri_commands::data_store_saved
+      tauri_commands::data_store_saved,
+      tauri_commands::resume_main,
+      tauri_commands::pause_main
     ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

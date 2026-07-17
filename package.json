@@ -4,8 +4,8 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "mkdir -p ./src-tauri/target/debug && cp ./src-tauri/_dev/*.dll ./src-tauri/target/debug/ && vite",
+    "build": "mkdir -p ./src-tauri/target/release && cp ./src-tauri/_dev/*.dll ./src-tauri/target/release/ && tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri"
   },

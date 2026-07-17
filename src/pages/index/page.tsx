@@ -7,6 +7,7 @@ import { useRef, useState } from "react"
 import { useAsyncEffect } from "@/hooks/use-async-effect"
 import PercDisplay from "@/pages/perc-display/page"
 import AddCarTrack from '@/pages/add-car-track/page'
+import { invoke } from "@tauri-apps/api/core"
 
 export type MethodOptions = '-unset-' | 'TC' | 'BB'
 
@@ -26,15 +27,32 @@ export type Item = {
   }
 }
 
+export const STORE_DEFAULT = {
+  'tracks-cars': []
+}
+
 export default function Index() {
   const store = useRef<Store>(null)
   const [items, setItems] = useState<Item[]>([])
+  const [running, setRunning] = useState(false)
 
   useAsyncEffect(async () => {
-    store.current = await load('data.json', { autoSave: false, defaults: {} })
+    store.current = await load('data.json', { autoSave: false, defaults: STORE_DEFAULT })
     const items = await store.current.get<Item[]>('tracks-cars')
     setItems(items || [])
+
+    return async () => {
+      await invoke('pause_main')
+    }
   }, [])
+
+  function playStop() {
+    running
+      ? invoke('pause_main')
+      : invoke('resume_main')
+    
+    setRunning(r => !r)
+  }
 
   return (
     <div className='h-full overflow-y-scroll scrollbar scrollbar-track-stone-900 scrollbar-thumb-redorange'>
@@ -46,6 +64,11 @@ export default function Index() {
             </button>
             <button type='button' className='aspect-square h-full border border-white text-white bg-stone-950 rounded-md cursor-pointer hover:border-redorange hover:text-redorange duration-200' onClick={() => window.setPage(<PercDisplay />)}>
               <IonIcon name='logo-laravel' variant='filled' className='scale-200 mt-1' />
+            </button>
+          </div>
+          <div className='aspect-square h-[80%] flex justify-center items-center'>
+            <button type="button" className="aspect-square h-full border border-white text-white bg-stone-950 rounded-md cursor-pointer hover:border-redorange hover:text-redorange duration-200" onClick={playStop}>
+              <IonIcon name={running ? 'pause' : 'play'} variant='filled' className="scale-200" style={{ marginTop: running ? '4px' : '2px', marginLeft: running ? 0 : '4px' }} />
             </button>
           </div>
           <div className='aspect-[2] h-[80%] mr-2 flex justify-center items-center gap-1.5'>

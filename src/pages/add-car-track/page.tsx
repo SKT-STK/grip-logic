@@ -5,6 +5,7 @@ import Index, { Item } from "@/pages/index/page";
 import { invoke } from "@tauri-apps/api/core";
 import { load } from "@tauri-apps/plugin-store";
 import { useState } from "react";
+import { STORE_DEFAULT } from '@/pages/index/page'
 
 export default function AddCarTrack() {
   const [carName, setCarName] = useState('')
@@ -19,11 +20,11 @@ export default function AddCarTrack() {
   }, 1000)
 
   async function addNewCarTrack() {
-    const store = await load('data.json', { autoSave: false, defaults: {} })
+    const store = await load('data.json', { autoSave: false, defaults: STORE_DEFAULT })
     const modifyStore = await store.get<Item[]>('tracks-cars')
+    console.log(modifyStore)
     modifyStore?.push({ track: { name: trackName, car: { name: carName, entries: {} } } } as Item)
     await store.set('tracks-cars', modifyStore)
-    // await store.save()
     await dataStoreSaveAndNotify(store)
     window.setPage(<Index />)
   }
