@@ -87,7 +87,7 @@ pub fn start(control: Arc<WorkerControl>, app_handle: AppHandle) {
       Ok(g) => g,
       Err(poisoned) => poisoned.into_inner()
     };
-    input_sim.init(guard.as_ref().unwrap().kb_soft, 0);
+    input_sim.init(guard.as_ref().unwrap_or(&AccBinds::default()).kb_soft, 0);
   }
 
   let duration_1ms = Duration::from_millis(1);
@@ -106,7 +106,7 @@ pub fn start(control: Arc<WorkerControl>, app_handle: AppHandle) {
         Ok(g) => g,
         Err(poisoned) => poisoned.into_inner()
       };
-      input_sim.reinit(guard.as_ref().unwrap().kb_soft, 0);
+      input_sim.reinit(guard.as_ref().unwrap_or(&AccBinds::default()).kb_soft, 0);
     }
 
     loop {

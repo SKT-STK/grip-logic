@@ -15,15 +15,14 @@ export default function AddCarTrack() {
     const carAndTrack = await invoke<[string, string] | null>('get_car_and_track_name')
     carAndTrack !== null && setCarName(carAndTrack[0])
     carAndTrack !== null && setTrackName(carAndTrack[1])
-    const offset = await invoke('fetch_bb_offset', { carName: (carAndTrack || [''])[0] })
-    console.log(offset === null ? 0 : offset)
+    // const offset = await invoke('fetch_bb_offset', { carName: (carAndTrack || [''])[0] })
+    // console.log(offset === null ? 0 : offset)
   }, 1000)
 
   async function addNewCarTrack() {
     const store = await load('data.json', { autoSave: false, defaults: STORE_DEFAULT })
-    const modifyStore = await store.get<Item[]>('tracks-cars')
-    console.log(modifyStore)
-    modifyStore?.push({ track: { name: trackName, car: { name: carName, entries: {} } } } as Item)
+    const modifyStore = (await store.get<Item[]>('tracks-cars')) || []
+    modifyStore.push({ track: { name: trackName, car: { name: carName, entries: {} } } } as Item)
     await store.set('tracks-cars', modifyStore)
     await dataStoreSaveAndNotify(store)
     window.setPage(<Index />)

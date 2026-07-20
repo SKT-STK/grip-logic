@@ -86,6 +86,17 @@ pub struct AccBinds {
   pub kb_soft: InputSimSoftware
 }
 
+impl Default for AccBinds {
+  fn default() -> Self {
+    Self {
+      tcs: Vec::new(),
+      bb_dec: None,
+      bb_inc: None,
+      kb_soft: InputSimSoftware::default()
+    }
+  }
+}
+
 static GLOBAL_ACC: OnceLock<RwLock<Option<ACCSharedMemory>>> = OnceLock::new();
 pub static BB_OFFSETS: phf::Map<&'static str, f32> = phf_map! {
   "amr_vantage_v12_gt3" => -7f32,
