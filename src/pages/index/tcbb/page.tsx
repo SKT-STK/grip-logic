@@ -42,10 +42,10 @@ export default function TCBB({ item, dataItems, dataStore }: TCBBProps) {
   }, [entries, dataStore])
 
   function addUnset() {
-    let newData = entries['0.0'] || []
+    let newData = entries['0'] || []
     newData.push({ minSpeed: 0, method: '-unset-', value: null })
     const newEntries = {...entries}
-    newEntries['0.0'] = newData
+    newEntries['0'] = newData
     setEntries(newEntries)
   }
 

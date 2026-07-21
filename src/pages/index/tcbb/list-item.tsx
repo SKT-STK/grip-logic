@@ -22,19 +22,18 @@ export default function ListItem({ entry, allEntries, setEntries }: ListItemProp
   }
 
   function updatePerc(perc: number) {
-    if (perc.toFixed(1) === key) {
+    if (perc.toString() === key) {
       return
     }
 
-    const fixedPerc = Number.parseFloat(perc.toFixed(1))
-    setPerc(fixedPerc)
+    setPerc(perc)
 
-    const newValue = allEntries[`${perc.toFixed(1)}`] || []
+    const newValue = allEntries[`${perc}`] || []
     newValue.push(value)
 
     const newData = {
       ...allEntries,
-      [`${perc.toFixed(1)}`]: newValue,
+      [`${perc}`]: newValue,
       [`${key}`]: allEntries[`${key}`].filter(v => JSON.stringify(v) !== JSON.stringify(value))
     }
     setEntries(newData)
@@ -67,7 +66,7 @@ export default function ListItem({ entry, allEntries, setEntries }: ListItemProp
   return (
     <div className='h-[15vh] px-20 flex justify-between items-center text-white text-xl font-semibold border-b hover:bg-stone-925 relative'>
       <div className="flex flex-row w-[40%] gap-2">
-        <input type="number" defaultValue={perc} onBlur={e => updatePerc(parseFloat(e.target.value))} className="bg-stone-900 cursor-text outline-none w-1/2" />
+        <input type="number" defaultValue={perc} onBlur={e => updatePerc(parseInt(e.target.value))} className="bg-stone-900 cursor-text outline-none w-1/2" />
         <input type="number" defaultValue={value.minSpeed} onBlur={e => modifyMinSpeed(parseInt(e.target.value))} className="bg-stone-900 w-1/2 cursor-text outline-none" />
       </div>
       <Value modifyValue={modifyValue}>{ value }</Value>

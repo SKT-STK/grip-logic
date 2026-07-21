@@ -9,7 +9,7 @@ export default function PercDisplay() {
 
   useAsyncInterval(async () => {
     const perc = await invoke<number | null>('get_curr_track_perc')
-    perc !== null && setTrackPerc((perc * 100).toFixed(1))
+    perc !== null && setTrackPerc((perc * 100).toFixed(0))
   }, 33)
 
   return (

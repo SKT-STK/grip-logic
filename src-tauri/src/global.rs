@@ -32,7 +32,7 @@ impl Into<Car<i32>> for Car<String> {
     let parsed_entries = self
       .entries
       .into_iter()
-      .map(|(k, v)| ((k.parse::<f32>().unwrap() * 10f32) as i32, v))
+      .map(|(k, v)| (k.parse::<i32>().unwrap(), v))
       .collect();
     Car {
       name: self.name,

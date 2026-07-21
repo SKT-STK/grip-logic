@@ -91,6 +91,7 @@ pub fn start(control: Arc<WorkerControl>, app_handle: AppHandle) {
   }
 
   let duration_1ms = Duration::from_millis(1);
+  let duration_10ms = Duration::from_millis(10);
 
   loop {
     {
@@ -110,7 +111,7 @@ pub fn start(control: Arc<WorkerControl>, app_handle: AppHandle) {
     }
 
     loop {
-      thread::sleep(Duration::from_millis(33));
+      thread::sleep(duration_10ms);
 
       {
         let state = control.state.lock().unwrap();
@@ -136,7 +137,7 @@ pub fn start(control: Arc<WorkerControl>, app_handle: AppHandle) {
       } else { None };
 
       if let Some(data) = data_option {
-        let curr_track_perc = (data.graphics.normalized_car_position * 1000f32) as i32;
+        let curr_track_perc = (data.graphics.normalized_car_position * 100f32).round() as i32;
         let curr_speed = data.physics.speed_kmh as i32;
         let curr_track = data.statics.track;
         let curr_car = data.statics.car_model;
