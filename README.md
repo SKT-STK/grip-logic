@@ -10,7 +10,7 @@ The program utilizes ACC's API (shared memory region) to get the current track p
 
 ## How to use? ##
 
-To build from source use: `cargo build --release`.  
+To build from source use: `bunx/npx tauri build`.  
 
 ## 3rd party ##
 
